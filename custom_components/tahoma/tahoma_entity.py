@@ -21,6 +21,8 @@ CORE_RSSI_LEVEL_STATE = "core:RSSILevelState"
 CORE_SENSOR_DEFECT_STATE = "core:SensorDefectState"
 CORE_STATUS_STATE = "core:StatusState"
 
+IO_MODEL_STATE = "io:ModelState"
+
 STATE_AVAILABLE = "available"
 STATE_BATTERY_FULL = "full"
 STATE_BATTERY_NORMAL = "normal"
@@ -114,7 +116,9 @@ class TahomaEntity(CoordinatorEntity, Entity):
             }
 
         manufacturer = self.select_state(CORE_MANUFACTURER_NAME_STATE) or "Somfy"
-        model = self.select_state(CORE_MODEL_STATE) or self.device.widget
+        model = (
+            self.select_state(CORE_MODEL_STATE, IO_MODEL_STATE) or self.device.widget
+        )
 
         return {
             "identifiers": {(DOMAIN, self.base_device_url)},
